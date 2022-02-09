@@ -1,0 +1,28 @@
+.tabletop {
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+        table,
+        th,
+        td {
+            border: 2px solid black;
+            border-collapse: collapse;
+            caption-side: bottom;
+        }
+        td {
+            color: red;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            text-align: center;
+            font-family: sans-serif;
+        }
+    }
+}

@@ -1,0 +1,18 @@
+<div class="tabletop">
+    <div class="content" role="main">
+        <div class="container">
+            <div class="header">
+                <h3>Simulator Tabletop</h3>
+            </div>
+            <div class="content">
+                <table>
+                    <tr *ngFor="let data of tableData">
+                        <td *ngFor="let cell of data">
+                            {{cell}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

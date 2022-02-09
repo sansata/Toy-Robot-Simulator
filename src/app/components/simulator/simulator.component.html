@@ -1,0 +1,46 @@
+<div class="simulator">
+    <!-- Simulator Content -->
+    <form #placement="ngForm" (ngSubmit)="onPlacement(placement.value)">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="xCoordinate"> X Coordinate </label>
+                    <input type="number" min="0" name="x" class="form-control" ngModel>
+                </div>
+                <div class="col-md-3">
+                    <label for="yCoordinate"> Y Coordinate</label>
+                    <input type="number" min="0" name="y" class="form-control" ngModel>
+                </div>
+                <div class="col-md-3">
+                    <label for="direction"> Direction </label>
+                    <select name="direction" class="form-control" ngModel>
+                            <option value=""></option>
+                            <option value="NORTH">NORTH</option>
+                            <option value="EAST">EAST</option>
+                            <option value="SOUTH">SOUTH</option>
+                            <option value="WEST">WEST</option>
+                        </select>
+                </div>
+                <div class="col-md-3 btn-placement">
+                    <button type="submit" class="btn btn-warning">Place</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <button aria-label="Left" type="button" class="btn btn-primary" (click)="leftRotation()">Left</button>
+            </div>
+            <div class="col-md-3">
+                <button aria-label="Right" type="button" class="btn btn-primary" (click)="rightRotation()">Right</button>
+            </div>
+            <div class="col-md-3">
+                <button aria-label="Move" type="button" class="btn btn-success" (click)="movePosition()">Move</button>
+            </div>
+            <div class="col-md-3">
+                <button aria-label="Report" type="button" class="btn btn-info" (click)="report()">Report</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+.container {
+    margin-top: 20px;
+}
+
+.btn {
+    width: 100%;
+    @media(max-width: 768px) {
+        margin-top: 10px;
+    }
+}
+
+.btn-placement {
+    margin-top: 20px;
+}

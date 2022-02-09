@@ -1,0 +1,19 @@
+.simulator-log {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .entries {
+        border-style: solid;
+        width: 300px;
+        height: 300px;
+        padding: 10px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
