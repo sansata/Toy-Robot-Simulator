@@ -42,8 +42,10 @@ describe('SimulatorComponent', () => {
       y: 1,
       direction: direction
     };
-   
-    component.onPlacement(placementValue);    
+    component.x = placementValue.x;
+    component.y = placementValue.y;
+    component.direction = placementValue.direction;
+    component.onPlacement();    
     expect( component.newPlacement).toEqual(placementValue);
   });
 });
@@ -104,8 +106,11 @@ describe('should MOVE the robot to one unit in the current direction', () => {
       ...postion,
       direction: direction
     };
+    component.x = placementValue.x;
+    component.y = placementValue.y;
+    component.direction = placementValue.direction;
 
-    component.onPlacement(placementValue);  
+    component.onPlacement();  
     component.movePosition();    
 
     const expected = { ...placementValue, x: placementValue.x + 1 };
@@ -118,8 +123,11 @@ describe('should MOVE the robot to one unit in the current direction', () => {
       ...postion,
       direction: direction
     };
+    component.x = placementValue.x;
+    component.y = placementValue.y;
+    component.direction = placementValue.direction;
 
-    component.onPlacement(placementValue); 
+    component.onPlacement(); 
     component.movePosition();   
     
     const expected = { ...placementValue, x:placementValue.x - 1 };
@@ -132,8 +140,11 @@ describe('should MOVE the robot to one unit in the current direction', () => {
       ...postion,
       direction: direction
     };
+    component.x = placementValue.x;
+    component.y = placementValue.y;
+    component.direction = placementValue.direction;
 
-    component.onPlacement(placementValue);  
+    component.onPlacement();  
     component.movePosition();   
 
     const expected = { ...placementValue, y: placementValue.y + 1 };
@@ -146,8 +157,11 @@ describe('should MOVE the robot to one unit in the current direction', () => {
       ...postion,
       direction: direction
     };
+    component.x = placementValue.x;
+    component.y = placementValue.y;
+    component.direction = placementValue.direction;
     
-    component.onPlacement(placementValue); 
+    component.onPlacement(); 
     component.movePosition();   
     
     const expected = { ...placementValue, y: placementValue.y - 1 };
