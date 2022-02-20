@@ -42,11 +42,33 @@ describe('SimulatorComponent', () => {
       y: 1,
       direction: direction
     };
+    const  avoidPlacement : IRobotPosition =  {
+      x: 0,
+      y: 0,
+      direction: Direction.NONE
+    };
     component.x = placementValue.x;
     component.y = placementValue.y;
     component.direction = placementValue.direction;
+    component.avoidPlacement = avoidPlacement;
     component.onPlacement();    
     expect( component.newPlacement).toEqual(placementValue);
+  });
+
+  
+  it('should avoid a position', () => {
+    const direction = Direction.WEST;
+    const placementValue : IRobotPosition =  {
+      x: 2,
+      y: 2,
+      direction: direction
+    };
+    component.x = placementValue.x;
+    component.y = placementValue.y;
+    component.direction = placementValue.direction;
+    component.avoid(); 
+    component.onPlacement();      
+    expect( component.newPlacement).not.toEqual(placementValue);
   });
 });
 
@@ -60,11 +82,21 @@ describe('should check robot initial state', () => {
       y,
       direction: Direction.NONE
     },
+    avoidPosition: {
+      x,
+      y,
+      direction: Direction.NONE
+    },
     log: []
   };
   it('should handle initial state', () => {
     expect(robotReducer(undefined, { type: 'unknown' })).toEqual({
       robotPosition: {
+        x: 0,
+        y: 0,
+        direction: Direction.NONE
+      },
+      avoidPosition: {
         x: 0,
         y: 0,
         direction: Direction.NONE
@@ -77,6 +109,7 @@ describe('should check robot initial state', () => {
 
 describe('should MOVE the robot to one unit in the current direction', () => {
   const postion: IRobotPosition = { x: 2, y: 2, direction:Direction.NONE};
+  const avoidPosition : IRobotPosition =  { x: 0, y: 0, direction: Direction.NONE};
   let component: SimulatorComponent;
   let fixture: ComponentFixture<SimulatorComponent>;
 
@@ -106,13 +139,15 @@ describe('should MOVE the robot to one unit in the current direction', () => {
       ...postion,
       direction: direction
     };
+    
+
     component.x = placementValue.x;
     component.y = placementValue.y;
     component.direction = placementValue.direction;
+    component.avoidPlacement = avoidPosition;
 
     component.onPlacement();  
     component.movePosition();    
-
     const expected = { ...placementValue, x: placementValue.x + 1 };
     expect(component.newPlacement).toEqual(expected);
   });
@@ -126,6 +161,7 @@ describe('should MOVE the robot to one unit in the current direction', () => {
     component.x = placementValue.x;
     component.y = placementValue.y;
     component.direction = placementValue.direction;
+    component.avoidPlacement = avoidPosition;
 
     component.onPlacement(); 
     component.movePosition();   
@@ -143,6 +179,7 @@ describe('should MOVE the robot to one unit in the current direction', () => {
     component.x = placementValue.x;
     component.y = placementValue.y;
     component.direction = placementValue.direction;
+    component.avoidPlacement = avoidPosition;
 
     component.onPlacement();  
     component.movePosition();   
@@ -160,6 +197,7 @@ describe('should MOVE the robot to one unit in the current direction', () => {
     component.x = placementValue.x;
     component.y = placementValue.y;
     component.direction = placementValue.direction;
+    component.avoidPlacement = avoidPosition;
     
     component.onPlacement(); 
     component.movePosition();   

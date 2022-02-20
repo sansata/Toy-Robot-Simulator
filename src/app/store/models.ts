@@ -22,5 +22,6 @@ interface ICoordinate {
   
   export interface IAppState {
     robotPosition: IRobotPosition,
+    avoidPosition: IRobotPosition,
     log?: string[]
   }

@@ -1,10 +1,15 @@
 import {  createReducer, on } from '@ngrx/store';
 import { Direction, IAppState } from '../models';
-import {  leftRotation, movePosition, placement, report, rightRotation } from './robot.actions';
+import {  avoid, leftRotation, movePosition, placement, report, rightRotation } from './robot.actions';
 
 
 const initialState: IAppState = {
     robotPosition: {
+      x: 0,
+      y: 0,
+      direction: Direction.NONE
+    },
+    avoidPosition: {
       x: 0,
       y: 0,
       direction: Direction.NONE
@@ -16,12 +21,14 @@ const _robotReducer = createReducer(
 	initialState,
     on(leftRotation, (state, {robotPosition}) => {
         return {
-			robotPosition: robotPosition,
+          ...state,
+			    robotPosition: robotPosition,
             log: [...state.log,'LEFT']
 		};
     }),
     on(rightRotation, (state, {robotPosition}) => {
          return {
+            ...state,
              robotPosition: robotPosition,
             log: [...state.log,'RIGHT']
 
@@ -30,6 +37,7 @@ const _robotReducer = createReducer(
     ),
     on(movePosition, (state, {robotPosition}) => {
          return {
+            ...state,
              robotPosition: robotPosition,
             log: [...state.log,'MOVE']
 
@@ -39,11 +47,21 @@ const _robotReducer = createReducer(
      on(placement, (state, {robotPosition}) => {
         const { x, y, direction } = robotPosition;
         return {
+            ...state,
             robotPosition: robotPosition,
            log: [...state.log,`PLACE ${x}, ${y}${direction ? ', ' + direction : ''}`]
 
         };
     }),
+    on(avoid, (state, {robotPosition}) => {
+      const { x, y, direction } = robotPosition;
+      return {
+          ...state,
+          avoidPosition: robotPosition,
+         log: [...state.log,`AVOID ${x}, ${y}${direction ? ', ' + direction : ''}`]
+
+      };
+  }),
     on(report, (state) => {
       const { x, y, direction } = state.robotPosition;
       return {

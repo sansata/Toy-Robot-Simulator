@@ -1,20 +1,21 @@
 import { Injectable } from "@angular/core";
 import { DIRECTIONS, tableHeight, tableWidth } from "./constants";
 import { Direction, IRobotPosition } from "./models";
+import { avoid } from "./robot/robot.actions";
 
 @Injectable({
 	providedIn: 'root'
 })
 export class RobotService {
 
-    public place (robotPosition: IRobotPosition): IRobotPosition {
-        if (this.validatePosition(robotPosition)) {
+    public place (robotPosition: IRobotPosition, avoidPosition: IRobotPosition): IRobotPosition {
+        if (this.validatePosition(robotPosition, avoidPosition)) {
             return  robotPosition;
         }
     }
 
-    public leftRotation(robotPosition: IRobotPosition): IRobotPosition  {
-		  if(this.validatePosition(robotPosition)){
+    public leftRotation(robotPosition: IRobotPosition, avoidPosition: IRobotPosition): IRobotPosition  {
+		  if(this.validatePosition(robotPosition, avoidPosition)){
             let newPos: IRobotPosition = { x: robotPosition.x, y: robotPosition.y };
             let index = DIRECTIONS.findIndex((direction: Direction) => direction === robotPosition.direction);
             index--;
@@ -25,8 +26,8 @@ export class RobotService {
        
   	}
 
-    public rightRotation(robotPosition: IRobotPosition): IRobotPosition  {
-		  if(this.validatePosition(robotPosition)){
+    public rightRotation(robotPosition: IRobotPosition, avoidPosition: IRobotPosition): IRobotPosition  {
+		  if(this.validatePosition(robotPosition, avoidPosition)){
             let newPos: IRobotPosition = { x: robotPosition.x, y: robotPosition.y };
             let index = DIRECTIONS.findIndex((direction: Direction) => direction === robotPosition.direction);
             index++;
@@ -36,7 +37,7 @@ export class RobotService {
         }
 	  }
 
-    public movePosition (robotPosition: IRobotPosition): IRobotPosition {
+    public movePosition (robotPosition: IRobotPosition, avoidPosition: IRobotPosition): IRobotPosition {
         let newPos: IRobotPosition = { x: robotPosition.x, y: robotPosition.y };
         
         switch (robotPosition.direction) {
@@ -48,17 +49,19 @@ export class RobotService {
         
         const newPlacement = { ...newPos, direction: robotPosition.direction };
   
-        if (this.validatePosition(newPlacement)) {
+        if (this.validatePosition(newPlacement, avoidPosition)) {
             return  newPlacement;
         }
     }
 
-    private validatePosition(robotPosition: IRobotPosition): boolean{
+    private validatePosition(robotPosition: IRobotPosition, avoidPosition: IRobotPosition): boolean{
+        debugger;
         const { x, y, direction } = robotPosition;
         const isDirectionValid = ((direction && (direction !== Direction.NONE)));
+        const isValidPosition = !(avoidPosition.x == x && avoidPosition.y == y && avoidPosition.direction == direction);
 
-        return isDirectionValid &&
-          (x >= 0) && (x <= tableWidth) &&
+        return isDirectionValid && isValidPosition &&
+          (x >= 0) && (x <= tableWidth) && 
           (y >= 0) && (y <= tableHeight);
        
     }

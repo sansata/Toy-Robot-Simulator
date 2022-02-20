@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { DIRECTIONS } from 'src/app/store/constants';
 import { Direction, IAppState, IRobotPosition } from 'src/app/store/models';
 import { RobotService } from 'src/app/store/robot.service';
-import { leftRotation, movePosition, placement, report, rightRotation } from 'src/app/store/robot/robot.actions';
+import { avoid, leftRotation, movePosition, placement, report, rightRotation } from 'src/app/store/robot/robot.actions';
 import { selectInitialState } from 'src/app/store/robot/robot.selector';
 
 @Component({
@@ -15,6 +15,7 @@ export class SimulatorComponent implements OnInit {
   currentPlacement: IRobotPosition;
   newPlacement: IRobotPosition;
   placementValue: IRobotPosition;
+  avoidPlacement: IRobotPosition;
   directions: any;
   direction =  Direction.NORTH;
   x = 0;
@@ -26,11 +27,22 @@ export class SimulatorComponent implements OnInit {
 			)
 			.subscribe((initialState) => {
         this.currentPlacement = initialState.appState.robotPosition;
+        this.avoidPlacement = initialState.appState.avoidPosition;
+        
 			});
       this.directions = Object.values(DIRECTIONS)
    }
 
   ngOnInit(): void {
+  }
+
+  avoid(){
+    this.placementValue = {
+      x: this.x,
+      y: this.y,
+      direction: this.direction
+    };
+    this.store.dispatch(avoid({robotPosition: this.placementValue }));
   }
 
   onPlacement(){
@@ -39,22 +51,22 @@ export class SimulatorComponent implements OnInit {
       y: this.y,
       direction: this.direction
     };
-    this.newPlacement =  this.robotService.place(this.placementValue);
+    this.newPlacement =  this.robotService.place(this.placementValue, this.avoidPlacement);
     if( this.newPlacement ) this.store.dispatch(placement({robotPosition:   this.newPlacement }));
   }
 
   leftRotation(){
-    this.newPlacement  = this.robotService.leftRotation(this.currentPlacement);
+    this.newPlacement  = this.robotService.leftRotation(this.currentPlacement, this.avoidPlacement);
     if( this.newPlacement ) this.store.dispatch(leftRotation({robotPosition:   this.newPlacement }));
   }
 
   rightRotation(){
-    this.newPlacement  = this.robotService.rightRotation(this.currentPlacement);
+    this.newPlacement  = this.robotService.rightRotation(this.currentPlacement, this.avoidPlacement);
     if( this.newPlacement ) this.store.dispatch(rightRotation({robotPosition:  this.newPlacement }));
   }
 
   movePosition(){
-    this.newPlacement  =  this.robotService.movePosition(this.currentPlacement);
+    this.newPlacement  =  this.robotService.movePosition(this.currentPlacement, this.avoidPlacement);
     if( this.newPlacement ) this.store.dispatch(movePosition({robotPosition:  this.newPlacement }));
   }
 
