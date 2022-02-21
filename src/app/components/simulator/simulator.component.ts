@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { DIRECTIONS } from 'src/app/store/constants';
 import { Direction, IAppState, IRobotPosition } from 'src/app/store/models';
 import { RobotService } from 'src/app/store/robot.service';
-import { leftRotation, movePosition, placement, report, rightRotation } from 'src/app/store/robot/robot.actions';
+import { avoid, leftRotation, movePosition, placement, report, rightRotation } from 'src/app/store/robot/robot.actions';
 import { selectInitialState } from 'src/app/store/robot/robot.selector';
 
 @Component({
@@ -15,6 +15,7 @@ export class SimulatorComponent implements OnInit {
   currentPlacement: IRobotPosition;
   newPlacement: IRobotPosition;
   placementValue: IRobotPosition;
+  avoidValue: IRobotPosition;
   directions: any;
   direction =  Direction.NORTH;
   x = 0;
@@ -31,6 +32,18 @@ export class SimulatorComponent implements OnInit {
    }
 
   ngOnInit(): void {
+  }
+
+  avoid(){
+debugger;
+ this.avoidValue = {
+      x: this.x,
+      y: this.y,
+      direction: this.direction
+    };
+
+    this.store.dispatch(avoid({robotPosition: this.avoidValue }));
+
   }
 
   onPlacement(){

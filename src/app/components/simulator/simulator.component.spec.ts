@@ -48,6 +48,22 @@ describe('SimulatorComponent', () => {
     component.onPlacement();    
     expect( component.newPlacement).toEqual(placementValue);
   });
+
+
+  // it('on Placement', () => {
+  //   const direction = Direction.WEST;
+  //   const placementValue : IRobotPosition =  {
+  //     x: 1,
+  //     y: 1,
+  //     direction: direction
+  //   };
+  //   component.x = placementValue.x;
+  //   component.y = placementValue.y;
+  //   component.direction = placementValue.direction;
+  //   component.avoid();    
+  //   expect( component.newPlacement).toEqual(placementValue);
+  // });
+
 });
 
 
